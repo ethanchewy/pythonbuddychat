@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Python Help Chat</title>
+        <script src="/js/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    </head>
+    <body>
+        <div class="container text-center">
+            <h1>Python Buddy Chat </h1>
+        </div>
+        <ul id="messages"></ul>
+        <form action="">
+            <input id="m" autocomplete="off" />
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            $(function () {
+                var socket = io();
+                $('form').submit(function(e){
+                    e.preventDefault();
+                    socket.emit('chat message', $('#m').val());
+                    $('#m').val('');
+                    return false;
+                });
+                socket.on('chat message', function(msg){
+                    $('#messages').append($('<li>').text(msg));
+                });
+            });
+        </script>
+
+    </body>
+</html>
